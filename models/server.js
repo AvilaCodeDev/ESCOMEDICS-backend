@@ -43,6 +43,9 @@ class Server {
         // this.app.use(this.usersPath, require('../routes/user'));
         this.app.use('/api/auth', require('../routes/auth'));
         this.app.use('/api/pacientes', require('../routes/pacientes'));
+        this.app.use('/api/usuarios', require('../routes/usuarios'));
+        this.app.use('/api/medicos', require('../routes/medicos'));
+        this.app.use('/api/citas', require('../routes/citas.js'));
     }
 
     listen() {

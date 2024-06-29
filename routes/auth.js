@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
-const { loginUsuario, revalidarToken } = require('../controllers/auth');
+const { loginUsuario, revalidarToken, obtieneDatosUsuario } = require('../controllers/auth');
 const { validarCampos } = require('../middlewares/validar-campos');
 const { validarJWT } = require('../middlewares/validar-jwt');
 
@@ -15,6 +15,15 @@ router.post(
     ],
     loginUsuario
 );
+
+router.post(
+    '/obtieneDatosUsuario',
+    [
+        check('uid', "El id del usuario es obligatorio").isInt(),
+        check("id_rol", "El rol del usuario es obligatorio").isInt()
+    ],
+    obtieneDatosUsuario
+)
 
 router.get(
     '/renew',

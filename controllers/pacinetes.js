@@ -4,7 +4,7 @@ const { select, insert, update, borrar } = require("../db/connection")
 
 const obtenerPacientes = async( req, res = response ) => {
     try {
-        const pacientes = await select("*", "pacientes" );
+        const pacientes = await select("*", "v_003_detalles_paciente" );
     
         if( pacientes.rowsAffected == 0 ){
             return res.status(400).json({

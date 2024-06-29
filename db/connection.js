@@ -4,6 +4,7 @@ const sqlConfig = {
     password: process.env.DB_PASSWORD,
     server: process.env.DB_HOST,
     database: process.env.DB_NAME,
+    dateStrings: true,
     options: {
         trustedConnection: true,
         trustServerCertificate: true
@@ -13,6 +14,28 @@ const sqlConfig = {
 const connection = async() => {
     try {
         return await sql.connect( sqlConfig );
+    } catch (error) {
+        console.log( error );
+    }
+}
+
+const callTableFunction = async( nombreFunction, params ) => {
+    try {
+        const consulta = `select * from dbo.${nombreFunction}('${params.join("','")}')`;
+        const sql = await connection();
+        const result = await sql.query( consulta );   
+        return result;
+    } catch (error) {
+        console.log( error );
+    }
+}
+
+const callStoreProcedure = async ( nombreProcedure, params) => {
+    try {
+        const consulta = `exec dbo.${ nombreProcedure } '${ params.join("','")}'`;
+        const sql = await connection();
+        const result = await sql.query( consulta );
+        return result;
     } catch (error) {
         console.log( error );
     }
@@ -62,5 +85,7 @@ module.exports = {
     select,
     insert,
     update,
-    borrar
+    borrar,
+    callTableFunction,
+    callStoreProcedure
 }
